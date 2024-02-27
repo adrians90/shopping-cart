@@ -1,12 +1,20 @@
 import items from "./items.json"
+import { addToCart } from "./shoppingCart.js"
 import formatCurrency from "./util/formatCurrency.js"
+import addGlobalEventListener from "./util/addGlobalEventListener.js"
 
 const storeItemTemplate = document.querySelector("#store-item-template")
 const storeItemContainer = document.querySelector("[data-store-container]")
 const IMAGE_URL = "https://dummyimage.com/420x260"
 
-console.log(items)
+
 export function setupStore() {
+    if(storeItemContainer == null) return
+    addGlobalEventListener("click", "[data-add-to-cart-button]", e => {
+        const id = e.target.closest("[data-store-item]").dataset.itemId
+            addToCart(parseInt(id))
+    })
+    
     items.forEach(renderStoreItem)
 }
 
